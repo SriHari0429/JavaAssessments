@@ -1,30 +1,43 @@
-import org.junit.jupiter.api.Test;
+import java.util.Scanner;
+class RewardValue{
+    private double cashValue;
+    private double milesValue;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+    private static final double MILES_TO_CASH_CONVERSION_RATE = 0.0035;
 
-public class RewardValueTests {
-
-    @Test
-    void create_with_cash_value() {
-        double cashValue = 100;
-        var rewardValue = new RewardValue(cashValue);
-        assertEquals(cashValue, rewardValue.getCashValue());
+    public RewardValue(double cashValue){
+        this.cashValue=cashValue;
+        this.milesValue= cashValue/MILES_TO_CASH_CONVERSION_RATE   ;
+    }
+    public RewardValue(double milesValue,boolean isMiles){
+        this.milesValue=milesValue;
+        this.milesValue= milesValue*MILES_TO_CASH_CONVERSION_RATE   ;
+    }
+    public double getCahValue(){
+        return cashValue;
+    }
+    public double getMilesValue(){
+        return milesValue;
     }
 
-    @Test
-    void create_with_miles_value() {
-        int milesValue = 10000;
-        var rewardValue = new RewardValue(milesValue);
-        assertEquals(milesValue, rewardValue.getMilesValue());
-    }
+}
 
-    @Test
-    void convert_from_cash_to_miles() {
-        assert false;
-    }
 
-    @Test
-    void convert_from_miles_to_cash() {
-        assert false;
+public class RewardsConverter {
+    public static void main(String[] args) {
+        var scanner = new Scanner(System.in);
+        System.out.println("Welcome to the Credit Card Rewards Converter!");
+        System.out.println("Please enter a cash value to convert to airline miles: ");
+        var input_value = scanner.nextLine();
+        double cashValue;
+        try {
+            cashValue = Double.parseDouble(input_value);
+        } catch (NumberFormatException exception) {
+            System.out.println("Could not parse input value as a double, exiting");
+            return;
+        }
+        System.out.println("converting $" + input_value + " to miles");
+        var rewardsValue = new RewardValue(cashValue);
+        System.out.println("$" + input_value + " is worth " + rewardsValue.getMilesValue() + " miles");
     }
 }
